@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const {Schema} = mongoose;
 
 // Estructura de anuncio
 const AnuncioSchema = new Schema({
-    nombre:  String,
-    venta: Boolean,
-    precio: Number,
-    foto: String,
-    tags: [String],
-  });
+  nombre: String,
+  venta: Boolean,
+  precio: Number,
+  foto: String,
+  tags: [String],
+});
 
 AnuncioSchema.statics.consulta = (paginacion /* {skip, limit} */, filtros) => {
   const query = AnuncioModel.find(filtros);
@@ -17,10 +17,10 @@ AnuncioSchema.statics.consulta = (paginacion /* {skip, limit} */, filtros) => {
   query.sort(paginacion.sort);
   // query.select(campos);
   // query.sort(sort);
-  return query.exec()
-}
+  return query.exec();
+};
 
 // Creacion del modelo usando el esquema
-let AnuncioModel = mongoose.model('Anuncio', AnuncioSchema);
+const AnuncioModel = mongoose.model('Anuncio', AnuncioSchema);
 module.exports = AnuncioModel;
 
