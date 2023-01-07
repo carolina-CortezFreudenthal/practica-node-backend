@@ -1,12 +1,103 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Anuncio:
+ *       type: object
+ *       required:
+ *         - nombre
+ *         - venta
+ *         - precio
+ *         - foto
+ *         - tags
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Id autogenerado por mongo
+ *         nombre:
+ *           type: string
+ *           description: Nombre del anuncio
+ *         venta:
+ *           type: boolean
+ *           description: Si el articulo es venta o busqueda
+ *         precio:
+ *           type: number
+ *           description: Precio del articulo
+ *         foto:
+ *           type: string
+ *           description: URL a la foto
+ *         tags:
+ *           type: array
+ *           description: Tags del anuncio.
+ *       example:
+ *         id: d5fE_asz
+ *         nombre: Bicicleta
+ *         venta: true
+ *         precio: 50
+ *         foto: bici.png
+ *         tags: ['lifestyle','motor']
+ */
+
 const AnuncioModel = require('../../models/anuncio');
 
 const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-// GET /api/anuncios
-// Devuelve una lista de anuncios
 
+/**
+ * @swagger
+ * tags:
+ *   name: Anuncios
+ *   description: Lista de anuncios
+ * /api/anuncios:
+ *   get:
+ *     summary: Lista de anuncios
+ *     parameters:
+ *       - in: query
+ *         name: nombre
+ *         description: Nombre o inicio del nombre de un anuncio
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: venta
+ *         description: Si el anuncio es venta o busqueda
+ *         schema:
+ *           type: boolean
+ *       - in: query
+ *         name: tags
+ *         description: Tags que pueden incluirse en los anuncios
+ *         schema:
+ *           type: array
+ *       - in: query
+ *         name: precio
+ *         description: Rango de precio. (x-y,-y,x-,x)
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: limit
+ *         description: Paginación - Limit
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: skip
+ *         description: Paginación - Skip
+ *         schema:
+ *           type: number
+ *     tags: [Anuncios]
+ *     responses:
+ *       200:
+ *         description: La lista de anuncios que cumplen las condiciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Anuncio'
+= *       500:
+ *         description: Some server error
+ *
+ */
 router.get('/', async (req, res, next) => {
   try {
     // filtros
@@ -59,7 +150,7 @@ router.get('/', async (req, res, next) => {
     // }
 
     const anuncios = await AnuncioModel.consulta(paginacion, filtros);
-    res.json({data: anuncios});
+    res.json(anuncios);
   } catch (err) {
     next(err);
   }

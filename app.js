@@ -4,6 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const swaggerUi = require('swagger-ui-express');
+swaggerJsdoc = require('swagger-jsdoc');
+
 const indexRouter = require('./routes/index');
 const anunciosRouter = require('./routes/api/anuncios');
 const tagsRouter = require('./routes/api/tags');
@@ -22,9 +25,37 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'NODEPOP',
+      version: '0.1.0',
+      description:
+        'Proyecto Backend Keep Coding',
+    },
+  },
+  apis: ['./routes/api/*.js'],
+};
+
+const specs = swaggerJsdoc(options);
 app.use('/', indexRouter);
-app.use('/api/anuncios', anunciosRouter);
-app.use('/api/tags', tagsRouter);
+
+app.use(
+    '/api/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(specs),
+);
+
+app.use(
+    '/api/anuncios',
+    anunciosRouter,
+);
+
+app.use(
+    '/api/tags',
+    tagsRouter,
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
