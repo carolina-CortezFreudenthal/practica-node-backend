@@ -150,7 +150,12 @@ router.get('/', async (req, res, next) => {
     // }
 
     const anuncios = await AnuncioModel.consulta(paginacion, filtros);
-    res.json(anuncios);
+
+    // Covertimos el anuncio a la respuesta con el url a la imagen
+    res.json(anuncios.map((a) => ({
+      ...a._doc,
+      foto: `${req.protocol + '://' + req.get('host')}/images/${a._doc.foto}`,
+    })));
   } catch (err) {
     next(err);
   }

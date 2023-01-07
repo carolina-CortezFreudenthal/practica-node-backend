@@ -40,6 +40,7 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 app.use('/', indexRouter);
+app.use(express.static('public'));
 
 app.use(
     '/api/docs',
