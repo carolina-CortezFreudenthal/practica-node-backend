@@ -1,4 +1,4 @@
-# FakeStore
+# NodePop
 
 Instalar las dependencias:
 
@@ -6,21 +6,34 @@ Instalar las dependencias:
 npm install
 ```
 
-Correr en servidor local
+Correr la base de datos inicial:
 
 ```
+npm run init-db
+```
+
+Correr la aplicación en producción:
+
+```sh
+npm start
+```
+
+Correr la aplicación en desarrollo:
+
+```sh
 npm run dev
 ```
 
 ## Documentación
 
-Esta práctica hace uso de la API de platzi. La documentación puede ser encontrada en [este enlace.](https://fakeapi.platzi.com/en/rest/products)
-
-## Pruebas
-
-Para poder probar la plataforma, favor de utilizar las siguientes credenciales:
+Toda la documentación esta implementada dentro de la aplicación utilizando swagger. Esta puede ser visitada en:
 
 ```
-Email:      john@mail.com
-Password:   changeme
+/api/docs/
+```
+
+Corriendo en local
+
+```
+http://localhost:3001/api/docs/
 ```
